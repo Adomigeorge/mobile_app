@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { type Profile } from "@shared/schema";
 import { ProfileCard } from "@/components/profile-card";
+import { Loader2 } from "lucide-react";
 
 export default function Profiles() {
   const { data: profiles, isLoading } = useQuery<Profile[]>({
@@ -9,13 +10,19 @@ export default function Profiles() {
 
   if (isLoading) {
     return (
-      <div className="p-4 max-w-2xl mx-auto space-y-4">
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div
-            key={i}
-            className="w-full h-48 rounded-lg bg-muted animate-pulse"
-          />
-        ))}
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
+  if (!profiles?.length) {
+    return (
+      <div className="p-4 text-center">
+        <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+          My Profiles
+        </h1>
+        <p className="text-muted-foreground">No profiles found. Create one to get started!</p>
       </div>
     );
   }
@@ -26,7 +33,7 @@ export default function Profiles() {
         My Profiles
       </h1>
       <div className="space-y-4">
-        {profiles?.map((profile) => (
+        {profiles.map((profile) => (
           <ProfileCard key={profile.id} profile={profile} />
         ))}
       </div>
