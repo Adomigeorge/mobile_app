@@ -14,12 +14,12 @@ export function Navigation() {
           <span className="text-xs mt-1">Home</span>
         </a>
       </Link>
-      <Link href="/create">
+      <Link href="/profiles">
         <a className={`flex flex-col items-center p-2 rounded-lg transition-colors ${
-          location === '/create' ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
+          location === '/profiles' ? 'text-primary bg-primary/10' : 'text-muted-foreground hover:text-primary hover:bg-primary/5'
         }`}>
           <User className="h-6 w-6" />
-          <span className="text-xs mt-1">Profile</span>
+          <span className="text-xs mt-1">Profiles</span>
         </a>
       </Link>
     </nav>

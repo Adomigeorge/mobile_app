@@ -7,6 +7,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import CreateProfile from "@/pages/create-profile";
 import EditProfile from "@/pages/edit-profile";
+import Profiles from "@/pages/profiles";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/create" component={CreateProfile} />
       <Route path="/edit/:id" component={EditProfile} />
+      <Route path="/profiles" component={Profiles} />
       <Route component={NotFound} />
     </Switch>
   );
