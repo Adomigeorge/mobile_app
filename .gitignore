@@ -1,6 +1,28 @@
+# Dependencies
 node_modules
 dist
+
+# Build files
 .DS_Store
 server/public
 vite.config.ts.*
 *.tar.gz
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Editor
+.vscode
+.idea
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Replit specific
+.replit
+.breakpoints
+.config
