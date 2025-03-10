@@ -1,3 +1,4 @@
+// Import required components and hooks
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertProfileSchema, type InsertProfile } from "@shared/schema";
@@ -19,6 +20,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { UploadCloud } from "lucide-react";
 import { useState } from "react";
 
+// List of available hobbies for selection
 const HOBBIES = [
   "Reading",
   "Gaming",
@@ -30,6 +32,7 @@ const HOBBIES = [
   "Photography",
 ];
 
+// Props interface for the ProfileForm component
 interface ProfileFormProps {
   defaultValues?: Partial<InsertProfile>;
   onSubmit: (data: InsertProfile) => void;
@@ -37,8 +40,10 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFormProps) {
+  // State to store the image preview URL
   const [previewUrl, setPreviewUrl] = useState<string | undefined>(defaultValues?.imageUrl);
 
+  // Initialize form with React Hook Form and Zod validation
   const form = useForm<InsertProfile>({
     resolver: zodResolver(insertProfileSchema),
     defaultValues: {
@@ -49,21 +54,24 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
       gender: "other",
       hobbies: [],
       notifications: false,
+      imageUrl: undefined,
       ...defaultValues,
     },
   });
 
+  // Handle image file selection and preview
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Create a preview URL for the image
+    // Create a preview URL for immediate display
     const fileUrl = URL.createObjectURL(file);
     setPreviewUrl(fileUrl);
 
-    // Convert to base64 for storage
+    // Convert image to base64 for storage
     const reader = new FileReader();
     reader.onloadend = () => {
+      // Update form value with base64 string
       form.setValue("imageUrl", reader.result as string);
     };
     reader.readAsDataURL(file);
@@ -74,7 +82,7 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Profile Image Upload */}
+            {/* Profile Image Upload Section */}
             <FormField
               control={form.control}
               name="imageUrl"

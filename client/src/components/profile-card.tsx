@@ -26,6 +26,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
   const { toast } = useToast();
   const [, navigate] = useLocation();
 
+  // Handle toggling favorite status
   const toggleFavorite = async () => {
     try {
       await apiRequest("PATCH", `/api/profiles/${profile.id}`, {
@@ -43,6 +44,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
     }
   };
 
+  // Handle profile deletion
   const handleDelete = async () => {
     try {
       await apiRequest("DELETE", `/api/profiles/${profile.id}`);
@@ -61,16 +63,22 @@ export function ProfileCard({ profile }: ProfileCardProps) {
   return (
     <Card className="w-full hover:shadow-lg transition-shadow">
       <CardHeader className="flex flex-row items-center gap-4">
+        {/* Profile Avatar with Image Support */}
         <Avatar className="h-20 w-20 ring-2 ring-primary/20">
-          <AvatarImage src={profile.imageUrl} />
+          <AvatarImage src={profile.imageUrl} alt={profile.name} />
           <AvatarFallback className="text-xl bg-primary/10 text-primary">
+            {/* Show initials if no image is uploaded */}
             {profile.name.split(" ").map((n) => n[0]).join("")}
           </AvatarFallback>
         </Avatar>
+
+        {/* Profile Name and Email */}
         <div className="flex-1">
           <h3 className="text-2xl font-semibold">{profile.name}</h3>
           <p className="text-sm text-muted-foreground">{profile.email}</p>
         </div>
+
+        {/* Favorite Toggle Button */}
         <Button
           variant="ghost"
           size="icon"
