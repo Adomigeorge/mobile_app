@@ -3,7 +3,7 @@ import { type Profile } from "@shared/schema";
 import { ProfileCard } from "@/components/profile-card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { UserPlus } from "lucide-react";
+import { Plus, UserPlus } from "lucide-react";
 
 export default function Home() {
   const { data: profiles, isLoading } = useQuery<Profile[]>({
@@ -24,17 +24,14 @@ export default function Home() {
   }
 
   return (
-    <div className="p-4 pb-20 max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-          Profile Manager
+    <div className="p-4 pb-24 max-w-2xl mx-auto relative min-h-screen">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent mb-2">
+          Welcome to Profile Manager
         </h1>
-        <Link href="/create">
-          <Button>
-            <UserPlus className="h-4 w-4 mr-2" />
-            New Profile
-          </Button>
-        </Link>
+        <p className="text-muted-foreground">
+          Create and manage your user profiles in one place
+        </p>
       </div>
 
       {profiles?.length === 0 ? (
@@ -53,6 +50,16 @@ export default function Home() {
           ))}
         </div>
       )}
+
+      {/* Floating Action Button */}
+      <Link href="/create">
+        <Button
+          className="fixed bottom-20 right-4 h-14 w-14 rounded-full shadow-lg"
+          size="icon"
+        >
+          <Plus className="h-6 w-6" />
+        </Button>
+      </Link>
     </div>
   );
 }
