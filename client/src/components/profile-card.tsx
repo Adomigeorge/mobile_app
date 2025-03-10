@@ -1,6 +1,6 @@
 import { type Profile } from "@shared/schema";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Heart, Pencil, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -62,6 +62,7 @@ export function ProfileCard({ profile }: ProfileCardProps) {
     <Card className="w-full hover:shadow-lg transition-shadow">
       <CardHeader className="flex flex-row items-center gap-4">
         <Avatar className="h-20 w-20 ring-2 ring-primary/20">
+          <AvatarImage src={profile.imageUrl} />
           <AvatarFallback className="text-xl bg-primary/10 text-primary">
             {profile.name.split(" ").map((n) => n[0]).join("")}
           </AvatarFallback>
