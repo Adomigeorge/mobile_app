@@ -1,3 +1,4 @@
+
 // Import required components and hooks
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -58,11 +59,6 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            
-                </FormItem>
-              )}
-            />
-
             {/* Name Field */}
             <FormField
               control={form.control}
@@ -91,9 +87,8 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
                   <FormLabel className="text-base">Email</FormLabel>
                   <FormControl>
                     <Input 
-                      type="email" 
                       {...field} 
-                      className="h-11 text-base bg-background"
+                      className="h-11 text-base bg-background" 
                       placeholder="Enter your email"
                     />
                   </FormControl>
@@ -112,7 +107,7 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
                   <FormControl>
                     <Input 
                       {...field} 
-                      className="h-11 text-base bg-background"
+                      className="h-11 text-base bg-background" 
                       placeholder="Enter your phone number"
                     />
                   </FormControl>
@@ -129,12 +124,11 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
                 <FormItem>
                   <FormLabel className="text-base">Age</FormLabel>
                   <FormControl>
-                    <Input
-                      type="number"
-                      {...field}
-                      className="h-11 text-base bg-background"
-                      placeholder="Enter your age"
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    <Input 
+                      {...field} 
+                      type="number" 
+                      className="h-11 text-base bg-background" 
+                      onChange={(e) => field.onChange(Number(e.target.value))}
                     />
                   </FormControl>
                   <FormMessage />
@@ -142,7 +136,7 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
               )}
             />
 
-            {/* Gender Selection */}
+            {/* Gender Field */}
             <FormField
               control={form.control}
               name="gender"
@@ -155,16 +149,24 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
                       defaultValue={field.value}
                       className="flex flex-col space-y-1"
                     >
-                      {["male", "female", "other"].map((gender) => (
-                        <FormItem key={gender} className="flex items-center space-x-3 space-y-0">
-                          <FormControl>
-                            <RadioGroupItem value={gender} />
-                          </FormControl>
-                          <FormLabel className="font-normal text-base capitalize">
-                            {gender}
-                          </FormLabel>
-                        </FormItem>
-                      ))}
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="male" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Male</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="female" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Female</FormLabel>
+                      </FormItem>
+                      <FormItem className="flex items-center space-x-3 space-y-0">
+                        <FormControl>
+                          <RadioGroupItem value="other" />
+                        </FormControl>
+                        <FormLabel className="font-normal">Other</FormLabel>
+                      </FormItem>
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -172,37 +174,47 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
               )}
             />
 
-            {/* Hobbies Selection */}
+            {/* Hobbies Field */}
             <FormField
               control={form.control}
               name="hobbies"
               render={() => (
                 <FormItem>
-                  <FormLabel className="text-base">Hobbies</FormLabel>
-                  <div className="grid grid-cols-2 gap-4 mt-2">
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Hobbies</FormLabel>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2">
                     {HOBBIES.map((hobby) => (
                       <FormField
                         key={hobby}
                         control={form.control}
                         name="hobbies"
-                        render={({ field }) => (
-                          <FormItem className="flex items-center space-x-3 space-y-0">
-                            <FormControl>
-                              <Checkbox
-                                checked={field.value?.includes(hobby)}
-                                onCheckedChange={(checked) => {
-                                  const newValue = checked
-                                    ? [...(field.value || []), hobby]
-                                    : field.value?.filter((value) => value !== hobby) || [];
-                                  field.onChange(newValue);
-                                }}
-                              />
-                            </FormControl>
-                            <FormLabel className="text-base font-normal">
-                              {hobby}
-                            </FormLabel>
-                          </FormItem>
-                        )}
+                        render={({ field }) => {
+                          return (
+                            <FormItem
+                              key={hobby}
+                              className="flex flex-row items-start space-x-3 space-y-0"
+                            >
+                              <FormControl>
+                                <Checkbox
+                                  checked={field.value?.includes(hobby)}
+                                  onCheckedChange={(checked) => {
+                                    return checked
+                                      ? field.onChange([...field.value, hobby])
+                                      : field.onChange(
+                                          field.value?.filter(
+                                            (value) => value !== hobby
+                                          )
+                                        );
+                                  }}
+                                />
+                              </FormControl>
+                              <FormLabel className="font-normal cursor-pointer">
+                                {hobby}
+                              </FormLabel>
+                            </FormItem>
+                          );
+                        }}
                       />
                     ))}
                   </div>
