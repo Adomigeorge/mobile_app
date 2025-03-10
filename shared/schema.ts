@@ -12,7 +12,6 @@ export const profiles = pgTable("profiles", {
   hobbies: text("hobbies").array().notNull(),
   notifications: boolean("notifications").notNull().default(false),
   favorite: boolean("favorite").notNull().default(false),
-  imageUrl: text("imageUrl"),
 });
 
 export const insertProfileSchema = createInsertSchema(profiles)
@@ -24,7 +23,6 @@ export const insertProfileSchema = createInsertSchema(profiles)
     age: z.number().min(13, "Must be at least 13 years old"),
     gender: z.enum(["male", "female", "other"]),
     hobbies: z.array(z.string()).min(1, "Select at least one hobby"),
-    imageUrl: z.string().optional(),
   });
 
 export type InsertProfile = z.infer<typeof insertProfileSchema>;

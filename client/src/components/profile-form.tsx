@@ -16,9 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UploadCloud } from "lucide-react";
-import { useState } from "react";
+
 
 // List of available hobbies for selection
 const HOBBIES = [
@@ -40,9 +38,6 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFormProps) {
-  // State to store the image preview URL
-  const [previewUrl, setPreviewUrl] = useState<string | undefined>(defaultValues?.imageUrl);
-
   // Initialize form with React Hook Form and Zod validation
   const form = useForm<InsertProfile>({
     resolver: zodResolver(insertProfileSchema),
@@ -54,62 +49,16 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
       gender: "other",
       hobbies: [],
       notifications: false,
-      imageUrl: undefined,
       ...defaultValues,
     },
   });
-
-  // Handle image file selection and preview
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Create a preview URL for immediate display
-    const fileUrl = URL.createObjectURL(file);
-    setPreviewUrl(fileUrl);
-
-    // Convert image to base64 for storage
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      // Update form value with base64 string
-      form.setValue("imageUrl", reader.result as string);
-    };
-    reader.readAsDataURL(file);
-  };
 
   return (
     <Card>
       <CardContent className="pt-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            {/* Profile Image Upload Section */}
-            <FormField
-              control={form.control}
-              name="imageUrl"
-              render={({ field }) => (
-                <FormItem className="flex flex-col items-center">
-                  <FormLabel className="text-base cursor-pointer">
-                    <div className="flex flex-col items-center gap-2">
-                      <Avatar className="h-32 w-32 cursor-pointer ring-2 ring-primary/20">
-                        <AvatarImage src={previewUrl} />
-                        <AvatarFallback className="text-4xl bg-primary/10 text-primary">
-                          {defaultValues?.name
-                            ? defaultValues.name.split(" ").map((n) => n[0]).join("")
-                            : <UploadCloud className="h-8 w-8" />}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span className="text-sm text-muted-foreground">
-                        Click to upload profile picture
-                      </span>
-                    </div>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleImageChange}
-                    />
-                  </FormLabel>
-                  <FormMessage />
+            
                 </FormItem>
               )}
             />
