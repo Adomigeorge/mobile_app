@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
+import { Card, CardContent } from "@/components/ui/card";
 
 const HOBBIES = [
   "Reading",
@@ -48,155 +49,193 @@ export function ProfileForm({ defaultValues, onSubmit, isSubmitting }: ProfileFo
   });
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <Card>
+      <CardContent className="pt-6">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            {/* Name Field */}
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base">Name</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      className="h-11 text-base bg-background"
+                      placeholder="Enter your name"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input type="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Email Field */}
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base">Email</FormLabel>
+                  <FormControl>
+                    <Input 
+                      type="email" 
+                      {...field} 
+                      className="h-11 text-base bg-background"
+                      placeholder="Enter your email"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Phone Field */}
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base">Phone</FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      className="h-11 text-base bg-background"
+                      placeholder="Enter your phone number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="age"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Age</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Age Field */}
+            <FormField
+              control={form.control}
+              name="age"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-base">Age</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      {...field}
+                      className="h-11 text-base bg-background"
+                      placeholder="Enter your age"
+                      onChange={(e) => field.onChange(parseInt(e.target.value))}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="gender"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Gender</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex space-x-4"
-                >
-                  <FormItem className="flex items-center space-x-2">
-                    <RadioGroupItem value="male" />
-                    <FormLabel className="font-normal">Male</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <RadioGroupItem value="female" />
-                    <FormLabel className="font-normal">Female</FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-2">
-                    <RadioGroupItem value="other" />
-                    <FormLabel className="font-normal">Other</FormLabel>
-                  </FormItem>
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Gender Selection */}
+            <FormField
+              control={form.control}
+              name="gender"
+              render={({ field }) => (
+                <FormItem className="space-y-3">
+                  <FormLabel className="text-base">Gender</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                      className="flex flex-col space-y-1"
+                    >
+                      {["male", "female", "other"].map((gender) => (
+                        <FormItem key={gender} className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={gender} />
+                          </FormControl>
+                          <FormLabel className="font-normal text-base capitalize">
+                            {gender}
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="hobbies"
-          render={() => (
-            <FormItem>
-              <FormLabel>Hobbies</FormLabel>
-              <div className="grid grid-cols-2 gap-4">
-                {HOBBIES.map((hobby) => (
-                  <FormField
-                    key={hobby}
-                    control={form.control}
-                    name="hobbies"
-                    render={({ field }) => (
-                      <FormItem className="flex items-center space-x-2">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(hobby)}
-                            onCheckedChange={(checked) => {
-                              const newValue = checked
-                                ? [...(field.value || []), hobby]
-                                : field.value?.filter((value) => value !== hobby) || [];
-                              field.onChange(newValue);
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{hobby}</FormLabel>
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            {/* Hobbies Selection */}
+            <FormField
+              control={form.control}
+              name="hobbies"
+              render={() => (
+                <FormItem>
+                  <FormLabel className="text-base">Hobbies</FormLabel>
+                  <div className="grid grid-cols-2 gap-4 mt-2">
+                    {HOBBIES.map((hobby) => (
+                      <FormField
+                        key={hobby}
+                        control={form.control}
+                        name="hobbies"
+                        render={({ field }) => (
+                          <FormItem className="flex items-center space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(hobby)}
+                                onCheckedChange={(checked) => {
+                                  const newValue = checked
+                                    ? [...(field.value || []), hobby]
+                                    : field.value?.filter((value) => value !== hobby) || [];
+                                  field.onChange(newValue);
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="text-base font-normal">
+                              {hobby}
+                            </FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name="notifications"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between">
-              <FormLabel>Enable Notifications</FormLabel>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+            {/* Notifications Toggle */}
+            <FormField
+              control={form.control}
+              name="notifications"
+              render={({ field }) => (
+                <FormItem className="flex items-center justify-between space-y-0 rounded-lg border p-4">
+                  <div className="space-y-0.5">
+                    <FormLabel className="text-base">
+                      Notifications
+                    </FormLabel>
+                    <div className="text-sm text-muted-foreground">
+                      Receive notifications about your profile updates
+                    </div>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting ? "Saving..." : "Save Profile"}
-        </Button>
-      </form>
-    </Form>
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full h-11 text-base font-medium"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Saving..." : "Save Profile"}
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }
